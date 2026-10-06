@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "capabilities": {
+    "disabled": []
+  },
+  "openaiFlex": true,
+  "memory": {
+    "enabled": false,
+    "backend": "builtin",
+    "server": "foundation"
+  },
+  "web": {
+    "backend": "builtin",
+    "server": "web"
+  },
+  "context": {
+    "unknownModelTokens": 32768,
+    "warningPercent": 70,
+    "rolloverPercent": 90,
+    "repoMap": false
+  },
+  "projectId": "yeet-project:ef46c68d-c19a-4437-93dd-8b9536262276"
+}
