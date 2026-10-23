@@ -388,10 +388,174 @@ In brief:
 5. Break an established pattern only when there is a clear benefit, and make the difference understandable.
 
 # The Hierarchy
+Since human vision does not treat every object in sight perfectly equally, there is naturally some kind of hierarchy between visible objects in human subconsciousness.
+Let’s consider there is a two advertisements on a street.
+One has a large painting with relatively small company information. The other has a large company name, contact information, website, and other business information, while its painting is relatively small.
+In result, the first advertisement will deliver its impression, image, or instinctive message first, while the second will deliver the company’s name and business information first.
+Both advertisements have the same purpose of spreading the company’s name, but their actual effects can vary. In the first case, the company will likely be remembered through the intuitive image or message of the advertisement. In the second case, the company’s name will more likely be remembered directly as text or absolute information.
+Similarly, subconscious hierarchy is generated inside Views of a display.
+An Element that appears visually and functionally important has a higher hierarchy, while an Element that appears secondary has a lower hierarchy.
+Hierarchy between Elements can be constructed in various ways.
 
-Since humans' vision does not treat their objects in sight perfectly equally, there certainly is some kind of 'hierarchy' between its objects, in their subconciousness.  
- Let's consider there is some advertisement in the street.  
- One has a larger size of its painting, and the other one has larger size of their company's name, contact, website, etc.  
- Consequently, the first ad will give their targets of impressions, or, instinctive message/image first, while second one will give the company's name, business information first.
+### Size
+The first and most obvious way is the absolute size of an Element.
+A Header is a very good example. While it typically is not located at the center, sufficiently large Header text at the top is enough to attract human eyes toward the title.
+For instance:
 
-Both has the same purpose of advertisements spreading their companies name, but the actual effect in real life can be vary. At first case, The companies memories Will be created with intuitive image or message all of that advertisement. And second and in second case, the company's name will be likely remembered by a text or absolute information.
+```
+PROJECT SETTINGS
+
+General
+Appearance
+Network
+```
+
+Even when all of them are placed near each other, `PROJECT SETTINGS` will be recognized first because its visual size is larger than the rest.
+This does not mean that every important Element must simply be made enormous. Size creates hierarchy relative to surrounding Elements.
+
+### Location
+The second factor is location.
+Placing an Element near the center generally gives it higher hierarchy. Elements placed near the edges generally receive less attention.
+For instance:
+
+```
+VStack {
+    Header()
+
+    Spacer()
+
+    MainContent()
+
+    Spacer()
+
+    FooterInformation()
+}
+```
+
+If `MainContent()` occupies the center of the View while `Header()` and `FooterInformation()` remain near the edges, users will naturally concentrate more on `MainContent()`.
+This is especially important when deciding where the primary information or interaction of a View should be placed.
+
+### Contrast
+Contrast can also generate hierarchy.
+An Element that is visually more distinguishable from its surroundings will attract attention earlier than Elements that blend into their surroundings.
+For instance, if most text in a View uses a light visual weight while one important value uses much stronger weight, the important value will naturally attract the user’s eyes first.
+
+```
+Storage Used
+
+183 GB
+of 256 GB
+```
+
+If `183 GB` is visually stronger than the surrounding text, it receives higher hierarchy even when its position is similar.
+The same applies to color, brightness, shape, and other visual differences.
+However, this relationship is relative. A bright Element has high hierarchy only when surrounding Elements are comparatively less bright. If every Element uses strong contrast, none of them are especially important anymore.
+
+### Isolation
+An Element can also gain hierarchy through isolation.
+An Element with sufficient empty space around it becomes easier to distinguish from nearby Elements and therefore attracts more attention.
+For instance:
+
+```
+Recent Files
+File A
+File B
+File C
+
+Create New Project
+```
+
+Even if `Create New Project` is not particularly large, the surrounding empty space separates it from the List and increases its visual importance.
+On the other hand, tightly grouped Elements will generally be perceived as a single group.
+Because of this, padding is not only a method to make Layout visually comfortable. It also changes how Elements are grouped and how their hierarchy is perceived.
+
+### Z-Level
+Z-Level can also express hierarchy.
+An Element placed visually above another Element can naturally feel more immediate or important.
+For instance, when a confirmation View appears above the current content:
+
+```
+ZStack {
+    MainView()
+    ConfirmationView()
+}
+```
+
+the user will naturally treat `ConfirmationView()` as the current highest-priority Element because it visually exists above the original View.
+However, higher Z-Level does not always mean that the Element is more important in the entire product. It means that, at that moment, it has higher visual priority.
+
+### Information Density
+Hierarchy can also be expressed through the amount of information given to each part of the interface.
+The Main View can contain detailed information, while secondary Elements contain only summarized information.
+For example, a mail application may show the full content of the selected mail in the Main View, while the Sidebar only shows the sender, subject, and a short preview.
+The Sidebar is still important for navigation, but its information is intentionally compressed because it has lower hierarchy than the currently selected content.
+This allows the user’s attention to remain on the Main View without completely removing secondary information.
+
+### Typography
+Text itself can have hierarchy through its size, weight, and form.
+For example:
+
+```
+Settings
+
+Appearance
+Configure the visual appearance of the application.
+```
+
+`Settings` has the highest hierarchy.
+`Appearance` has lower hierarchy than the Header, but higher hierarchy than its explanation.
+The description has the lowest hierarchy because it is supporting information.
+This makes users able to understand the structure of the information before actually reading every sentence.
+
+### Animation and Interaction
+Hierarchy also applies to animation and interaction.
+The response animation of the Main View should be clear and expressive, while Elements near the edge should use less attractive motion compared to the Main View, since users will mostly be focused on the Main View.
+For instance, imagine an application where selecting an item from a Sidebar changes the Main View.
+The Main View may use a clear transition that directly communicates that its content has changed.
+
+```
+SidebarItem() → selected
+
+MainView()
+    → clear content transition
+```
+
+The Sidebar itself may only use a subtle selection animation.
+If both the Sidebar and the Main View use equally strong animations, the Sidebar will compete with the actual content for the user’s attention.
+Similarly, primary interactions can have stronger feedback than secondary interactions.
+A main action may respond with a clearly visible change, while a minor icon near the edge may only use a small state transition.
+Animation should therefore reinforce the existing hierarchy of the Layout rather than create a separate competing hierarchy.
+
+### Hierarchy Is Relative
+Most importantly, hierarchy is relative.
+An Element does not have high hierarchy purely because of its own properties. Its hierarchy is created through its relationship with surrounding Elements.
+Large text only feels large because smaller text exists around it.
+Strong contrast only attracts attention when weaker Elements surround it.
+An isolated Element becomes noticeable because nearby Elements are grouped more closely.
+A clear animation attracts attention because other Elements move less.
+Because of this, simply increasing the visual strength of every important Element does not create a stronger hierarchy.
+If every Element is large, bold, strongly colored, highly contrasted, animated, and separated, the hierarchy disappears because every Element competes for the same attention.
+Consider:
+
+```
+BIG HEADER
+
+BIG BUTTON
+
+BIG WARNING
+
+BIG STATUS
+
+BIG LABEL
+```
+
+Even though every Element is visually strong, the user has no clear indication of what should be seen first.
+Instead, the designer should decide which Elements are primary, secondary, and supporting, and construct their relative appearance accordingly.
+Hierarchy exists not because one Element is independently important, but because the entire View expresses which Element should receive attention before another.
+In brief:
+
+1. Human vision naturally creates hierarchy between visible Elements.
+2. Higher hierarchy means that an Element is more likely to receive the user’s attention first.
+3. Size, location, contrast, isolation, Z-Level, information density, typography, animation, and interaction can all construct hierarchy.
+4. Primary Elements should receive stronger visual and interactive emphasis than secondary Elements.
+5. Hierarchy is relative between Elements. If every Element tries to attract attention, no clear hierarchy exists.
